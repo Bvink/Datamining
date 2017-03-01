@@ -12,10 +12,11 @@ public class Classifier {
 
     //Classify whether a mushroom belongs to, in this case, the "p" or "e" classification.
     //By going through all the features, one by one, and testing what the highest total probability is, then overwriting this if higher probability has been found for another classification.
-    //This means the first check will always succeed, and then every consecutive check is checked against the first one.
+    //This means the first check will always succeed, and then every consecutive check is checked against the previous best one.
     //When the highest probability for a classification has been established, that classification is given to the mushroom and passed on as the "correct" classification.
-    //In the case of the feature having 0 occurances for a classification, epsilon will be used instead.
-    //In the case of a feature not existing in the feature list, we skip it!
+    //This is done by taking the log() of the classification count divided by the total, added to the sum of log() of the frequency of the feature for that classification divided by the total of the classification count, of each feature.
+    //In the case of the feature having 0 occurrences for a classification, epsilon will be used instead. https://www.youtube.com/watch?v=mFaxEvc1Jr0
+    //In the case of a feature not existing in the feature list, we skip it! https://www.youtube.com/watch?v=EqjyLfpv5oA
     public Classification classify(List<Object> featuresToClassify, List<Feature> features, Map<Object, Classification> classificationMap) {
         double bestProbability = Double.NEGATIVE_INFINITY;
         double probability;
@@ -28,9 +29,9 @@ public class Classifier {
                 for (Feature feature : features) {
                     if (feature.getName().equals(featureToClassify.toString()) && feature.getIndex() == i) {
                         if (feature.existsInClassificationMap(classification)) {
-                            probability += calcProbability(feature.getTotalFrequency(), classification.getSetsize());
+                            probability += calcProbability(feature.getClassificationMap().get(classification), classification.getFrequency());
                         } else {
-                            probability += calcProbability(EPSILON, classification.getSetsize());
+                            probability += calcProbability(EPSILON, classification.getFrequency());
                         }
                     }
                 }
