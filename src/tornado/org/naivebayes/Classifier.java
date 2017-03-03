@@ -1,7 +1,7 @@
 package tornado.org.naivebayes;
 
-import tornado.org.naivebayes.objects.Classification;
-import tornado.org.naivebayes.objects.Feature;
+import tornado.org.Generic.objects.Classification;
+import tornado.org.Generic.objects.Feature;
 
 import java.util.List;
 import java.util.Map;
@@ -9,6 +9,11 @@ import java.util.Map;
 public class Classifier {
 
     public static final double EPSILON = 1;
+    private int trainingSetSize;
+
+    public Classifier(int trainingSetSize) {
+        this.trainingSetSize = trainingSetSize;
+    }
 
     //Classify whether a mushroom belongs to, in this case, the "p" or "e" classification.
     //By going through all the features, one by one, and testing what the highest total probability is, then overwriting this if higher probability has been found for another classification.
@@ -23,13 +28,13 @@ public class Classifier {
         Classification bestClassification = null;
         for (Map.Entry<Object, Classification> mapEntry : classificationMap.entrySet()) {
             Classification classification = mapEntry.getValue();
-            probability = calcProbability(classification.getFrequency(), classification.getSetsize());
+            probability = calcProbability(classification.getFrequency(), trainingSetSize);
             for (int i = 0; i < featuresToClassify.size(); i++) {
                 Object featureToClassify = featuresToClassify.get(i);
                 for (Feature feature : features) {
                     if (feature.getName().equals(featureToClassify.toString()) && feature.getIndex() == i) {
                         if (feature.existsInClassificationMap(classification)) {
-                            probability += calcProbability(feature.getClassificationMap().get(classification), classification.getFrequency());
+                            probability += calcProbability(feature.getClassificationFrequencies().get(classification), classification.getFrequency());
                         } else {
                             probability += calcProbability(EPSILON, classification.getFrequency());
                         }

@@ -1,8 +1,7 @@
-package tornado.org.naivebayes.generators;
+package tornado.org.Generic.generators;
 
-import tornado.org.naivebayes.NaiveBayes;
-import tornado.org.naivebayes.objects.Classification;
-import tornado.org.naivebayes.objects.Feature;
+import tornado.org.Generic.objects.Classification;
+import tornado.org.Generic.objects.Feature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,30 +12,30 @@ public class FeatureGenerator {
     //Checks if a feature exists.
     //If not, add that feature and then move on to check how many times it occurs for our classifications( "p" and "e", in this case).
     //Increment the feature's classification count each time it's found.
-    public List<Feature> create(Object[][] dataSet, Map<Object, Classification> classificationMap) {
-        final int TARGET_CLASSIFICATION = NaiveBayes.TARGET_CLASSIFICATION;
+    public List<Feature> create(Object[][] dataSet, Map<Object, Classification> classificationMap, int TARGET_CLASSIFICATION) {
         List<Feature> features = new ArrayList<>();
 
         for (Object[] row : dataSet) {
             for (int i = 0; i < row.length; i++) {
-                Feature feature = new Feature();
-                feature.setName(row[i].toString());
-                feature.setIndex(i);
-                Classification currentClassification = classificationMap.get(row[TARGET_CLASSIFICATION]);
+                if (i != TARGET_CLASSIFICATION) {
+                    Feature feature = new Feature(row[i].toString(), i);
+                    Classification currentClassification = classificationMap.get(row[TARGET_CLASSIFICATION]);
 
-                if (!featureExistsInList(features, feature) && i != TARGET_CLASSIFICATION) {
-                    feature.addToClassificationMap(currentClassification);
-                    features.add(feature);
-                } else {
-                    Feature foundFeature = getFeatureFromFeatures(features, feature);
-                    if (foundFeature.existsInClassificationMap(currentClassification)) {
-                        foundFeature.incrementFoundClassification(currentClassification);
+                    if (!featureExistsInList(features, feature)) {
+                        feature.addToClassificationMap(currentClassification);
+                        features.add(feature);
                     } else {
-                        foundFeature.addToClassificationMap(currentClassification);
+                        Feature foundFeature = getFeatureFromFeatures(features, feature);
+                        if (foundFeature != null) {
+                            if (foundFeature.existsInClassificationMap(currentClassification)) {
+                                foundFeature.incrementFoundClassification(currentClassification);
+                            } else {
+                                foundFeature.addToClassificationMap(currentClassification);
+                            }
+                        }
                     }
-                    foundFeature.setTotalFrequency();
-                }
 
+                }
             }
         }
         return features;
@@ -60,6 +59,6 @@ public class FeatureGenerator {
                 return feature;
             }
         }
-        return new Feature();
+        return null;
     }
 }

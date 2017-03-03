@@ -1,10 +1,11 @@
 package tornado.org.naivebayes;
 
-import tornado.org.naivebayes.generators.ClassificationGenerator;
-import tornado.org.naivebayes.generators.FeatureGenerator;
-import tornado.org.naivebayes.objects.Classification;
-import tornado.org.naivebayes.objects.Feature;
+import tornado.org.Generic.generators.ClassificationGenerator;
+import tornado.org.Generic.generators.FeatureGenerator;
+import tornado.org.Generic.objects.Classification;
+import tornado.org.Generic.objects.Feature;
 import tornado.org.util.DataSetParser;
+import tornado.org.util.Util;
 
 import java.util.*;
 
@@ -20,12 +21,12 @@ public class NaiveBayes {
         Object[][] trainingData = dataSetParser.createTrainingDataSet(SEED, trainingSetPercentage);
 
         ClassificationGenerator classificationGenerator = new ClassificationGenerator();
-        Map<Object, Classification> classificationMap = classificationGenerator.create(trainingData);
+        Map<Object, Classification> classificationMap = classificationGenerator.create(trainingData, TARGET_CLASSIFICATION);
 
         FeatureGenerator featureGenerator = new FeatureGenerator();
-        List<Feature> features = featureGenerator.create(trainingData, classificationMap);
+        List<Feature> features = featureGenerator.create(trainingData, classificationMap, TARGET_CLASSIFICATION);
 
-        Classifier classifier = new Classifier();
+        Classifier classifier = new Classifier(trainingData.length);
 
         for (Object[] row : dataSet) {
             Classification ClassifiedRow = classifier.classify(Arrays.asList(row), features, classificationMap);
@@ -34,7 +35,7 @@ public class NaiveBayes {
                 correct++;
             }
         }
-        System.out.println("Accuracy: " + (correct / dataSet.length));
+        System.out.println(Util.accuracy("Naive Bayes", correct, dataSet.length - 1));
     }
 
 }
