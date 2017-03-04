@@ -7,7 +7,6 @@ import tornado.org.Generic.objects.Classification;
 import tornado.org.Generic.objects.Feature;
 import tornado.org.Generic.objects.Index;
 import tornado.org.Generic.objects.Node;
-import tornado.org.util.DataSetParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,11 +90,11 @@ public class DecisionTreeAlgorithm {
     private String getResult(Feature f) {
         for (Map.Entry<Object, Classification> mapEntry : classificationMap.entrySet()) {
             Classification classification = mapEntry.getValue();
-            if (f.getClassificationFrequencies().get(classification) == null) {
+            if (f.getClassificationFrequencies().get(classification) != null) {
                 return classification.getName();
             }
         }
-        return "Nobody knows";
+        return "Something went horribly wrong classifying a leaf.";
     }
 
     private double getFeatureFrequency(Feature f) {
@@ -123,17 +122,17 @@ public class DecisionTreeAlgorithm {
     private void setChildren(Index root, Object[][] dataSet, List<String> header, int TARGET_CLASSIFICATION) {
         for(Feature f : root.getFeatures()) {
             if(!f.isLeaf()) {
-                Object[][] subset = getSubsetForValueAttribute(f, dataSet);
+                Object[][] subset = getDataSubset(f, dataSet);
                 DecisionTreeAlgorithm dt = new DecisionTreeAlgorithm(subset, header, TARGET_CLASSIFICATION);
                 rootNode.addChild(dt.getRootNode());
             }
         }
     }
 
-    private Object[][] getSubsetForValueAttribute(Feature f , Object[][] dataset) {
+    private Object[][] getDataSubset(Feature f, Object[][] dataSet) {
         Object[][] subset;
         List<Object[]> list = new ArrayList<>();
-        for (Object[] row : dataset) {
+        for (Object[] row : dataSet) {
             if (row[f.getIndex()].equals(f.getName())) {
                 list.add(row);
             }

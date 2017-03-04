@@ -18,8 +18,6 @@ public class DecisionTree {
         Object[][] dataSet = dataSetParser.getData();
         Object[][] trainingData = dataSetParser.createTrainingDataSet(SEED, trainingSetPercentage);
 
-
-
         DecisionTreeAlgorithm dt = new DecisionTreeAlgorithm(trainingData, dataSetParser.getHeader(), TARGET_CLASSIFICATION);
         Node rootNode = dt.getRootNode();
         TreePrinter tp = new TreePrinter();
