@@ -35,7 +35,7 @@ public class NaiveBayes {
                 correct++;
             }
         }
-        System.out.println(Util.accuracy("Naive Bayes", correct, dataSet.length - 1));
+        System.out.println(Util.accuracy("Naive Bayes", correct, dataSet.length));
     }
 
 }
