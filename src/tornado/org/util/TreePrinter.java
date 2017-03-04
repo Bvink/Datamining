@@ -1,7 +1,7 @@
 package tornado.org.util;
 
-import tornado.org.Generic.objects.Feature;
-import tornado.org.Generic.objects.Node;
+import tornado.org.generic.objects.Feature;
+import tornado.org.generic.objects.Node;
 
 public class TreePrinter {
 

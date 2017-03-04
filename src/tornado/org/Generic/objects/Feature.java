@@ -1,4 +1,4 @@
-package tornado.org.Generic.objects;
+package tornado.org.generic.objects;
 
 import java.util.HashMap;
 import java.util.Map;

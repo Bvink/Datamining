@@ -1,15 +1,15 @@
-package tornado.org.Generic.objects;
+package tornado.org.generic.objects;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Index {
 
-    private int index;
-    private String name;
-    private double entropy;
-    private double gain;
-    private final List<Feature> features = new ArrayList<Feature>();
+    private int index;                                              //Index of the selected row, the location at which this Index exists inside a row.
+    private String name;                                            //Name of the Index.
+    private double entropy;                                         //The Index's individual Entropy.
+    private double gain;                                            //The calculated gain of the Index.
+    private final List<Feature> features = new ArrayList<Feature>();      //Every single Feature can exist at this Index on a selected row.
 
     public Index(int index, String name) {
         this.index = index;

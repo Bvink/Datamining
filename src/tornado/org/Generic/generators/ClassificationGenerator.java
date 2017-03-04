@@ -1,13 +1,11 @@
-package tornado.org.Generic.generators;
+package tornado.org.generic.generators;
 
-import tornado.org.Generic.objects.Classification;
+import tornado.org.generic.objects.Classification;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ClassificationGenerator {
-
-
 
     //Obtain the amount of classifications (In this case, poisonous and not-poisonous, "p" and "e" respectively).
     //Then count the amount of each in the dataSet, and save the frequency for each classification.

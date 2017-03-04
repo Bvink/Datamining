@@ -1,7 +1,7 @@
 package tornado.org.naivebayes;
 
-import tornado.org.Generic.objects.Classification;
-import tornado.org.Generic.objects.Feature;
+import tornado.org.generic.objects.Classification;
+import tornado.org.generic.objects.Feature;
 
 import java.util.List;
 import java.util.Map;

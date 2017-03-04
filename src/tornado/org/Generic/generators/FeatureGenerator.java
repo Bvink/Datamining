@@ -1,7 +1,7 @@
-package tornado.org.Generic.generators;
+package tornado.org.generic.generators;
 
-import tornado.org.Generic.objects.Classification;
-import tornado.org.Generic.objects.Feature;
+import tornado.org.generic.objects.Classification;
+import tornado.org.generic.objects.Feature;
 
 import java.util.ArrayList;
 import java.util.List;

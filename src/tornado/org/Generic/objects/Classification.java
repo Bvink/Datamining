@@ -1,4 +1,4 @@
-package tornado.org.Generic.objects;
+package tornado.org.generic.objects;
 
 public class Classification {
     private String name;       //Name of the classification

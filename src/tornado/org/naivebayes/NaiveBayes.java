@@ -1,9 +1,9 @@
 package tornado.org.naivebayes;
 
-import tornado.org.Generic.generators.ClassificationGenerator;
-import tornado.org.Generic.generators.FeatureGenerator;
-import tornado.org.Generic.objects.Classification;
-import tornado.org.Generic.objects.Feature;
+import tornado.org.generic.generators.ClassificationGenerator;
+import tornado.org.generic.generators.FeatureGenerator;
+import tornado.org.generic.objects.Classification;
+import tornado.org.generic.objects.Feature;
 import tornado.org.util.DataSetParser;
 import tornado.org.util.Util;
 
