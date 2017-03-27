@@ -7,7 +7,9 @@ import tornado.org.generic.objects.Feature;
 import tornado.org.util.DataSetParser;
 import tornado.org.util.Util;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class NaiveBayes {
     public static final int TARGET_CLASSIFICATION = 0;
@@ -18,7 +20,7 @@ public class NaiveBayes {
     public void init() {
         double correct = 0;
         Object[][] dataSet = dataSetParser.getData();
-        Object[][] trainingData = dataSetParser.createTrainingDataSet(SEED, trainingSetPercentage);
+        Object[][] trainingData = dataSetParser.createSubSet(SEED, trainingSetPercentage);
 
         ClassificationGenerator classificationGenerator = new ClassificationGenerator();
         Map<Object, Classification> classificationMap = classificationGenerator.create(trainingData, TARGET_CLASSIFICATION);

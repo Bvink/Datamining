@@ -16,11 +16,11 @@ public class Classifier {
     public Classification classify(List<Object> featuresToClassify, Node node) {
         for (Feature f : node.getIndex().getFeatures()) {
             if (f.getName().equals(featuresToClassify.get(node.getIndex().getIndex()))) {
-                if(f.isLeaf()) {
+                if (f.isLeaf()) {
                     return new Classification(f.getResult());
                 } else {
                     for (Node n : node.getChildren()) {
-                        if(n.getPreviousFeature() == null || n.getPreviousFeature() == f) {
+                        if (n.getPreviousFeature() == null || n.getPreviousFeature() == f) {
                             return classify(featuresToClassify, n);
                         }
                     }

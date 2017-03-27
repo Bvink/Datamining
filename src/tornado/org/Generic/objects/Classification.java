@@ -17,6 +17,6 @@ public class Classification {
     }
 
     public void increaseFrequency() {
-        this.frequency+=1;
+        this.frequency += 1;
     }
 }

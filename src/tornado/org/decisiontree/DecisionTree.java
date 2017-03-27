@@ -1,9 +1,9 @@
 package tornado.org.decisiontree;
 
 
+import tornado.org.decisiontree.algorithm.DecisionTreeAlgorithm;
 import tornado.org.generic.objects.Classification;
 import tornado.org.generic.objects.Node;
-import tornado.org.decisiontree.algorithm.DecisionTreeAlgorithm;
 import tornado.org.util.DataSetParser;
 import tornado.org.util.TreePrinter;
 import tornado.org.util.Util;
@@ -19,7 +19,7 @@ public class DecisionTree {
 
     public void init() {
         Object[][] dataSet = dataSetParser.getData();
-        Object[][] trainingData = dataSetParser.createTrainingDataSet(SEED, trainingSetPercentage);
+        Object[][] trainingData = dataSetParser.createSubSet(SEED, trainingSetPercentage);
 
         DecisionTreeAlgorithm dt = new DecisionTreeAlgorithm(trainingData, dataSetParser.getHeader(), TARGET_CLASSIFICATION);
         Node rootNode = dt.getCurrentNode();

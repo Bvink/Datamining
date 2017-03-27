@@ -9,11 +9,12 @@ public class Feature {
     private int index;                                                                      //Current index of the feature, features can have the same name but different indexes.
     private double entropy;                                                                 //Entropy of the feature, only used in Decision Tree.
     private boolean leaf;                                                                   //Indication if the feature is a leaf, only used in Decision Tree.
-    private final Map<Classification, Integer> classificationFrequencies = new HashMap<>(); //Total number of the feature in combination with the classification it's attached to.
+    private final Map<Classification, Integer> classificationFrequencies;                   //Total number of the feature in combination with the classification it's attached to.
 
     public Feature(String name, int index) {
         this.name = name;
         this.index = index;
+        this.classificationFrequencies = new HashMap<>();
     }
 
     public String getName() {
@@ -38,7 +39,7 @@ public class Feature {
 
     public void setEntropy(double entropy) {
         this.entropy = entropy;
-        if(entropy == 0) {
+        if (entropy == 0) {
             this.leaf = true;
         }
     }

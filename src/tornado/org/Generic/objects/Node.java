@@ -7,8 +7,12 @@ public class Node {
 
     private Index index;                                        //The Index tied to this Node, the Index with the highest gain.
     private Feature previousFeature;                            //Remember the branch feature that this Node is connected to.
-    private List<Node> children = new ArrayList<Node>();           //If the Index contains a Feature that is not a Leaf, a child Node will be added after the next Index with the highest gain is calculated.
+    private List<Node> children;                                //If the Index contains a Feature that is not a Leaf, a child Node will be added after the next Index with the highest gain is calculated.
                                                                 // Multiple children can exist, as multiple Features can be "not leaves".
+
+    public Node() {
+        this.children = new ArrayList<>();
+    }
 
     public Index getIndex() {
         return index;

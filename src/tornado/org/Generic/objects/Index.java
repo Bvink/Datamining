@@ -9,11 +9,12 @@ public class Index {
     private String name;                                            //Name of the Index.
     private double entropy;                                         //The Index's individual Entropy.
     private double gain;                                            //The calculated gain of the Index.
-    private final List<Feature> features = new ArrayList<Feature>();      //Every single Feature can exist at this Index on a selected row.
+    private final List<Feature> features;                           //Every single Feature can exist at this Index on a selected row.
 
     public Index(int index, String name) {
         this.index = index;
         this.name = name;
+        this.features = new ArrayList<>();
     }
 
     public int getIndex() {

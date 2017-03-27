@@ -17,6 +17,7 @@ public class DecisionTreeAlgorithm {
     private static double log2(double value) {
         return Math.log(value) / Math.log(2);
     }
+
     private Node currentNode;
     private double setSize;
     private Map<Object, Classification> classificationMap;
@@ -62,7 +63,7 @@ public class DecisionTreeAlgorithm {
 
     //Calculate the entropy and gain for each Index.
     private void calcIndexValues(double entropy) {
-        for(Index index : indexes) {
+        for (Index index : indexes) {
             calcIndexEntropy(index);
             index.setGain(entropy - index.getEntropy());
         }
@@ -71,7 +72,7 @@ public class DecisionTreeAlgorithm {
     //Calculate the entropy for a single Index.
     private double calcIndexEntropy(Index index) {
         double entropy = 0;
-        for(Feature f : index.getFeatures()) {
+        for (Feature f : index.getFeatures()) {
 
             entropy += getFeatureFrequency(f) / setSize * calcFeatureEntropy(f);
         }
@@ -92,7 +93,7 @@ public class DecisionTreeAlgorithm {
             }
         }
         f.setEntropy(entropy);
-        if(f.isLeaf()) {
+        if (f.isLeaf()) {
             f.setResult(getResult(f));
         }
         return entropy;
@@ -122,8 +123,8 @@ public class DecisionTreeAlgorithm {
     private Index getHighestGainIndex(List<Index> indexes) {
         Index highestGainIndex = new Index(999, "end");
         highestGainIndex.setGain(0);
-        for(Index index : indexes) {
-            if(index.getGain() > highestGainIndex.getGain())
+        for (Index index : indexes) {
+            if (index.getGain() > highestGainIndex.getGain())
                 highestGainIndex = index;
         }
         return highestGainIndex;
@@ -131,8 +132,8 @@ public class DecisionTreeAlgorithm {
 
     //For each feature that isn't a leaf, do the entire thing over again.
     private void setChildren(Index root, Object[][] dataSet, List<String> header, int TARGET_CLASSIFICATION) {
-        for(Feature f : root.getFeatures()) {
-            if(!f.isLeaf()) {
+        for (Feature f : root.getFeatures()) {
+            if (!f.isLeaf()) {
                 Object[][] subset = getDataSubset(f, dataSet);
                 DecisionTreeAlgorithm dt = new DecisionTreeAlgorithm(subset, header, TARGET_CLASSIFICATION);
                 Node childNode = dt.getCurrentNode();

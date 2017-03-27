@@ -1,6 +1,9 @@
 package tornado.org.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,15 +16,15 @@ public class DataSetParser {
 
 
     public DataSetParser(String fileLocation) {
-    file = new File(fileLocation);
+        file = new File(fileLocation);
 
-    try {
-        parseData();
-    } catch (IOException e) {
-        Logger logger = Logger.getLogger("logger");
-        logger.log(Level.SEVERE, "File not found: ", e);
+        try {
+            parseData();
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger("logger");
+            logger.log(Level.SEVERE, "File not found: ", e);
+        }
     }
-}
 
     public List<String> getHeader() {
         return header;
@@ -46,19 +49,19 @@ public class DataSetParser {
         r.close();
     }
 
-    public Object[][] createTrainingDataSet(long SEED, double trainingSetPercentage) {
+    public Object[][] createSubSet(long SEED, double trainingSetPercentage) {
         int trainingSetSize = (int) Math.floor(data.length * trainingSetPercentage);
         Set<Object[]> subset = new HashSet<>(trainingSetSize);
         Random random = new Random(SEED);
 
         for (int i = 0; i < trainingSetSize; i++) {
             int index = random.nextInt(data.length);
-            Object[] mushroom = data[index];
-            while (subset.contains(mushroom)) {
+            Object[] object = data[index];
+            while (subset.contains(object)) {
                 index = (index + 1) % data.length;
-                mushroom = data[index];
+                object = data[index];
             }
-            subset.add(mushroom);
+            subset.add(object);
         }
         return subset.toArray(new Object[subset.size()][]);
     }

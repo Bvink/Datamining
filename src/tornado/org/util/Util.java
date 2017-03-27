@@ -6,7 +6,7 @@ public class Util {
         StringBuilder sb = new StringBuilder();
         sb.append(type);
         sb.append(" Accuracy: ");
-        sb.append(numerator/denominator);
+        sb.append(numerator / denominator);
         return sb.toString();
     }
 }
