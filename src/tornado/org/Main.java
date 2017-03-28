@@ -3,6 +3,7 @@ package tornado.org;
 import tornado.org.dbscan.DBScan;
 import tornado.org.decisiontree.DecisionTree;
 import tornado.org.naivebayes.NaiveBayes;
+import tornado.org.util.ResultFileWriter;
 
 public class Main {
 
@@ -14,8 +15,9 @@ public class Main {
         DecisionTree dt = new DecisionTree();
         dt.init();
 
+        /*
         DBScan dbs = new DBScan();
         dbs.init();
-
+        */
     }
 }

@@ -49,6 +49,7 @@ public class Classifier {
         return bestClassification;
     }
 
+    //Returns the log of a probability.
     private double calcProbability(double numerator, double denominator) {
         return Math.log(numerator / denominator);
     }

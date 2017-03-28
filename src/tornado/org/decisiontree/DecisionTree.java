@@ -5,10 +5,14 @@ import tornado.org.decisiontree.algorithm.DecisionTreeAlgorithm;
 import tornado.org.generic.objects.Classification;
 import tornado.org.generic.objects.Node;
 import tornado.org.util.DataSetParser;
+import tornado.org.util.ResultFileWriter;
 import tornado.org.util.TreePrinter;
 import tornado.org.util.Util;
 
+import javax.xml.transform.Result;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class DecisionTree {
 
@@ -26,21 +30,28 @@ public class DecisionTree {
 
         accuracyTest(dataSet, rootNode);
 
-        TreePrinter tp = new TreePrinter();
-        tp.print(rootNode, "");
+        ResultFileWriter.writeDecisionTree(rootNode);
     }
 
     private void accuracyTest(Object[][] dataSet, Node rootNode) {
-        int correct = 0;
+        double correct = 0;
+
+        List<String> results = new ArrayList<>();
         Classifier classifier = new Classifier();
 
         for (Object[] row : dataSet) {
             Classification classifiedRow = classifier.classify(Arrays.asList(row), rootNode);
+            StringBuilder sb = new StringBuilder(classifiedRow.getName());
             if (classifiedRow.getName().equals(row[TARGET_CLASSIFICATION])) {
                 correct++;
+                sb.append(", ✓");
+            } else {
+                sb.append(", ✕");
             }
+            results.add(sb.toString());
         }
         System.out.println(Util.accuracy("Decision Tree", correct, dataSet.length));
+        ResultFileWriter.writeDecisionTreeResults(results, dataSet);
     }
 
 }

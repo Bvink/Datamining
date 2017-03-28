@@ -5,8 +5,10 @@ import tornado.org.generic.generators.FeatureGenerator;
 import tornado.org.generic.objects.Classification;
 import tornado.org.generic.objects.Feature;
 import tornado.org.util.DataSetParser;
+import tornado.org.util.ResultFileWriter;
 import tornado.org.util.Util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,6 @@ public class NaiveBayes {
     DataSetParser dataSetParser = new DataSetParser("mushrooms.csv");
 
     public void init() {
-        double correct = 0;
         Object[][] dataSet = dataSetParser.getData();
         Object[][] trainingData = dataSetParser.createSubSet(SEED, trainingSetPercentage);
 
@@ -29,16 +30,28 @@ public class NaiveBayes {
         FeatureGenerator featureGenerator = new FeatureGenerator();
         List<Feature> features = featureGenerator.create(trainingData, classificationMap, TARGET_CLASSIFICATION);
 
-        Classifier classifier = new Classifier(trainingData.length);
+        accuracyTest(trainingData.length, features, classificationMap, dataSet);
+    }
+
+    private void accuracyTest(int trainingDataLength, List<Feature> features, Map<Object, Classification> classificationMap, Object[][] dataSet) {
+        double correct = 0;
+
+        List<String> results = new ArrayList<>();
+        Classifier classifier = new Classifier(trainingDataLength);
 
         for (Object[] row : dataSet) {
-            Classification ClassifiedRow = classifier.classify(Arrays.asList(row), features, classificationMap);
-
-            if (ClassifiedRow.getName().equals(row[TARGET_CLASSIFICATION])) {
+            Classification classifiedRow = classifier.classify(Arrays.asList(row), features, classificationMap);
+            StringBuilder sb = new StringBuilder(classifiedRow.getName());
+            if (classifiedRow.getName().equals(row[TARGET_CLASSIFICATION])) {
                 correct++;
+                sb.append(", ✓");
+            } else {
+                sb.append(", ✕");
             }
+            results.add(sb.toString());
         }
         System.out.println(Util.accuracy("Naive Bayes", correct, dataSet.length));
+        ResultFileWriter.writeNaiveBayesResults(results, dataSet);
     }
 
 }
