@@ -2,6 +2,8 @@ package tornado.org.util;
 
 import tornado.org.generic.objects.Feature;
 import tornado.org.generic.objects.Node;
+import tornado.org.generic.objects.graph.Cluster;
+import tornado.org.generic.objects.graph.Point;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,10 +12,10 @@ import java.util.List;
 public class ResultFileWriter {
 
     public static final String LOCATION = "res/";
-
+    public static final String SPACING = "\t";
 
     public static void writeNaiveBayesResults(List<String> results, Object[][] dataSet) {
-        try{
+        try {
             PrintWriter writer = new PrintWriter(LOCATION + "NaiveBayesResults", "UTF-8");
             writeResults(writer, results, dataSet);
         } catch (IOException e) {
@@ -22,7 +24,7 @@ public class ResultFileWriter {
     }
 
     public static void writeDecisionTreeResults(List<String> results, Object[][] dataSet) {
-        try{
+        try {
             PrintWriter writer = new PrintWriter(LOCATION + "DecisionTreeResults", "UTF-8");
             writeResults(writer, results, dataSet);
 
@@ -37,7 +39,7 @@ public class ResultFileWriter {
             StringBuilder sb = new StringBuilder();
             sb.append(results.get(i));
             sb.append(", ");
-            for(Object s : row) {
+            for (Object s : row) {
                 sb.append(s.toString());
                 sb.append(", ");
             }
@@ -48,7 +50,7 @@ public class ResultFileWriter {
     }
 
     public static void writeDecisionTree(Node node) {
-        try{
+        try {
             PrintWriter writer = new PrintWriter(LOCATION + "DecisionTree", "UTF-8");
 
             treeWriter(writer, node, "");
@@ -61,7 +63,7 @@ public class ResultFileWriter {
 
     private static void treeWriter(PrintWriter writer, Node node, String spacing) {
 
-        spacing = spacing + "\t";
+        spacing = spacing + SPACING;
         int count = 0;
         writer.println(spacing + node.getIndex().getName());
         for (Feature f : node.getIndex().getFeatures()) {
@@ -75,5 +77,26 @@ public class ResultFileWriter {
         }
     }
 
+    public static void writeDBScanResults(List<Cluster> clusters, List<Point> points) {
+        try {
+            PrintWriter writer = new PrintWriter(LOCATION + "DBScanResults", "UTF-8");
 
+            for (Cluster cluster : clusters) {
+                writer.println("Cluster ID: " + cluster.getId());
+                for (Point point : cluster.getPoints()) {
+                    writer.println(SPACING + "ID: " + point.getId() + ", Location: " + point.getLocation());
+                }
+            }
+            writer.println("Cluster ID: OUTLIERS");
+            for (Point point : points) {
+                if (point.getClusterID() == -1) {
+                    writer.println(SPACING + "ID: " + point.getId() + ", Location: " + point.getLocation());
+                }
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

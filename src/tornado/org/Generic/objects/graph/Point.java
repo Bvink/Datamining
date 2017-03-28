@@ -2,15 +2,25 @@ package tornado.org.generic.objects.graph;
 
 public class Point {
 
+    private int id;
     private double x, y, z;
     private boolean visited = false;
     private boolean assigned = false;
     private int clusterID = -1;
 
-    public Point(double x, double y, double z) {
+    public Point(int id, double x, double y, double z) {
+        this.id = id;
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getLocation() {
+        return getX() + ", " + getY() + ", " + getX();
     }
 
     public double getX() {

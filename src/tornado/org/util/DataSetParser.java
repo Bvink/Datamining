@@ -14,7 +14,6 @@ public class DataSetParser {
     private List<String> header;
     private Object[][] data;
 
-
     public DataSetParser(String fileLocation) {
         file = new File(fileLocation);
 
@@ -49,7 +48,8 @@ public class DataSetParser {
         r.close();
     }
 
-    public Object[][] createSubSet(long SEED, double trainingSetPercentage) {
+    //Returns a percentage of random rows from the original dataset, based on a seed.
+    public Object[][] createTrainingSet(long SEED, double trainingSetPercentage) {
         int trainingSetSize = (int) Math.floor(data.length * trainingSetPercentage);
         Set<Object[]> subset = new HashSet<>(trainingSetSize);
         Random random = new Random(SEED);

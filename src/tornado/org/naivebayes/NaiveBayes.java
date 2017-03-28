@@ -22,7 +22,7 @@ public class NaiveBayes {
 
     public void init() {
         Object[][] dataSet = dataSetParser.getData();
-        Object[][] trainingData = dataSetParser.createSubSet(SEED, trainingSetPercentage);
+        Object[][] trainingData = dataSetParser.createTrainingSet(SEED, trainingSetPercentage);
 
         ClassificationGenerator classificationGenerator = new ClassificationGenerator();
         Map<Object, Classification> classificationMap = classificationGenerator.create(trainingData, TARGET_CLASSIFICATION);

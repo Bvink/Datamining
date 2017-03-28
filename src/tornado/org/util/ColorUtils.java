@@ -1,6 +1,6 @@
 package tornado.org.util;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -29,31 +29,31 @@ public class ColorUtils {
         float[][] yuv = new float[ncolors][3];
 
         // initialize array with random colors
-        for(int got = 0; got < ncolors;) {
+        for (int got = 0; got < ncolors; ) {
             System.arraycopy(randYUVinRGBRange(minComponent, maxComponent), 0, yuv[got++], 0, 3);
         }
         // continually break up the worst-fit color pair until we get tired of searching
-        for(int c = 0; c < ncolors * 1000; c++) {
+        for (int c = 0; c < ncolors * 1000; c++) {
             float worst = 8888;
             int worstID = 0;
-            for(int i = 1; i < yuv.length; i++) {
-                for(int j = 0; j < i; j++) {
+            for (int i = 1; i < yuv.length; i++) {
+                for (int j = 0; j < i; j++) {
                     float dist = sqrdist(yuv[i], yuv[j]);
-                    if(dist < worst) {
+                    if (dist < worst) {
                         worst = dist;
                         worstID = i;
                     }
                 }
             }
             float[] best = randYUVBetterThan(worst, minComponent, maxComponent, yuv);
-            if(best == null)
+            if (best == null)
                 break;
             else
                 yuv[worstID] = best;
         }
 
         Color[] rgbs = new Color[yuv.length];
-        for(int i = 0; i < yuv.length; i++) {
+        for (int i = 0; i < yuv.length; i++) {
             float[] rgb = new float[3];
             yuv2rgb(yuv[i][0], yuv[i][1], yuv[i][2], rgb);
             rgbs[i] = new Color(rgb[0], rgb[1], rgb[2]);
@@ -75,17 +75,17 @@ public class ColorUtils {
         hsv[1] = s;
         hsv[2] = v;
         System.out.println("H: " + h + " S: " + s + " V:" + v);
-        if(hsv[0] == -1) {
+        if (hsv[0] == -1) {
             rgb[0] = rgb[1] = rgb[2] = hsv[2];
             return;
         }
         i = (int) (Math.floor(hsv[0]));
         f = hsv[0] - i;
-        if(i % 2 == 0)
+        if (i % 2 == 0)
             f = 1 - f; // if i is even
         m = hsv[2] * (1 - hsv[1]);
         n = hsv[2] * (1 - hsv[1] * f);
-        switch(i) {
+        switch (i) {
             case 6:
             case 0:
                 rgb[0] = hsv[2];
@@ -135,14 +135,14 @@ public class ColorUtils {
     }
 
     private float[] randYUVinRGBRange(float minComponent, float maxComponent) {
-        while(true) {
+        while (true) {
             float y = rand.nextFloat(); // * YFRAC + 1-YFRAC);
             float u = rand.nextFloat() * 2 * U_OFF - U_OFF;
             float v = rand.nextFloat() * 2 * V_OFF - V_OFF;
             float[] rgb = new float[3];
             yuv2rgb(y, u, v, rgb);
             float r = rgb[0], g = rgb[1], b = rgb[2];
-            if(0 <= r && r <= 1 &&
+            if (0 <= r && r <= 1 &&
                     0 <= g && g <= 1 &&
                     0 <= b && b <= 1 &&
                     (r > minComponent || g > minComponent || b > minComponent) && // don't want all dark components
@@ -154,7 +154,7 @@ public class ColorUtils {
 
     private float sqrdist(float[] a, float[] b) {
         float sum = 0;
-        for(int i = 0; i < a.length; i++) {
+        for (int i = 0; i < a.length; i++) {
             float diff = a[i] - b[i];
             sum += diff * diff;
         }
@@ -164,12 +164,12 @@ public class ColorUtils {
     private double worstFit(Color[] colors) {
         float worst = 8888;
         float[] a = new float[3], b = new float[3];
-        for(int i = 1; i < colors.length; i++) {
+        for (int i = 1; i < colors.length; i++) {
             colors[i].getColorComponents(a);
-            for(int j = 0; j < i; j++) {
+            for (int j = 0; j < i; j++) {
                 colors[j].getColorComponents(b);
                 float dist = sqrdist(a, b);
-                if(dist < worst) {
+                if (dist < worst) {
                     worst = dist;
                 }
             }
@@ -178,13 +178,13 @@ public class ColorUtils {
     }
 
     private float[] randYUVBetterThan(float bestDistSqrd, float minComponent, float maxComponent, float[][] in) {
-        for(int attempt = 1; attempt < 100 * in.length; attempt++) {
+        for (int attempt = 1; attempt < 100 * in.length; attempt++) {
             float[] candidate = randYUVinRGBRange(minComponent, maxComponent);
             boolean good = true;
-            for(int i = 0; i < in.length; i++)
-                if(sqrdist(candidate, in[i]) < bestDistSqrd)
+            for (int i = 0; i < in.length; i++)
+                if (sqrdist(candidate, in[i]) < bestDistSqrd)
                     good = false;
-            if(good)
+            if (good)
                 return candidate;
         }
         return null; // after a bunch of passes, couldn't find a candidate that beat the best.

@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class Plotter {
 
-    private static final boolean SHOW_OUTLIERS = true;
+    private static final boolean SHOW_OUTLIERS = false;
 
     public void draw(List<Cluster> clusters, List<Point> points) throws Exception {
 
@@ -27,7 +27,7 @@ public class Plotter {
 
         int i = 0;
         for (Point point : points) {
-            if(SHOW_OUTLIERS || point.getClusterID() != -1) {
+            if (SHOW_OUTLIERS || point.getClusterID() != -1) {
                 coord3dsPoints[i] = new Coord3d(point.getX(), point.getY(), point.getZ());
                 colors[i] = getColor(colorMap, clusters, point);
                 i++;
@@ -77,7 +77,7 @@ public class Plotter {
 
     //Return the amount of points that will be displayed, depending on whether outliers will be shown or not.
     private int getSize(List<Cluster> clusters, List<Point> points) {
-        if(SHOW_OUTLIERS) {
+        if (SHOW_OUTLIERS) {
             return points.size();
         } else {
             return clusteredStarSize(clusters);

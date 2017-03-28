@@ -120,6 +120,8 @@ public class DecisionTreeAlgorithm {
     }
 
     //Return the Index with the highest gain value.
+    //If nothing has a gain over 0 (There is no gain), return end.
+    //At this point, a tree simply cannot be classified.
     private Index getHighestGainIndex(List<Index> indexes) {
         Index highestGainIndex = new Index(999, "end");
         highestGainIndex.setGain(0);

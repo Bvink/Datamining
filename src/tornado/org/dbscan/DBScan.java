@@ -5,6 +5,7 @@ import tornado.org.generic.objects.graph.Cluster;
 import tornado.org.generic.objects.graph.Point;
 import tornado.org.util.DataSetParser;
 import tornado.org.util.EuclideanDistance;
+import tornado.org.util.ResultFileWriter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,24 +21,23 @@ public class DBScan {
 
     public void init() {
         Object[][] dataSet = dataSetParser.getData();
-        //Object[][] dataSet = dataSetParser.createSubSet(1, 0.15);
 
         PointGenerator pointGenerator = new PointGenerator();
         points = pointGenerator.create(dataSet);
 
         generateClusters();
 
+        System.out.println("Total amount of clusters: " + clusters.size());
+
         Plotter plotter = new Plotter();
 
         try {
             plotter.draw(clusters, points);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        for (Cluster cluster : clusters) {
-            System.out.println("id: " + cluster.getId() + " size: " + cluster.getPoints().size());
-        }
+        ResultFileWriter.writeDBScanResults(clusters, points);
     }
 
     //Create a new cluster.

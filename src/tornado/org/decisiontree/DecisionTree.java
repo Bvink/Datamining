@@ -6,10 +6,8 @@ import tornado.org.generic.objects.Classification;
 import tornado.org.generic.objects.Node;
 import tornado.org.util.DataSetParser;
 import tornado.org.util.ResultFileWriter;
-import tornado.org.util.TreePrinter;
 import tornado.org.util.Util;
 
-import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +21,7 @@ public class DecisionTree {
 
     public void init() {
         Object[][] dataSet = dataSetParser.getData();
-        Object[][] trainingData = dataSetParser.createSubSet(SEED, trainingSetPercentage);
+        Object[][] trainingData = dataSetParser.createTrainingSet(SEED, trainingSetPercentage);
 
         DecisionTreeAlgorithm dt = new DecisionTreeAlgorithm(trainingData, dataSetParser.getHeader(), TARGET_CLASSIFICATION);
         Node rootNode = dt.getCurrentNode();
