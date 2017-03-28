@@ -12,7 +12,7 @@ import java.util.List;
 public class DBScan {
 
     public static final int MU = 10;
-    private static final double EPSILON = 0.1;
+    private static final double EPSILON = 0.05;
     private List<Point> points = new ArrayList<>();
     private final List<Cluster> clusters = new ArrayList<>();
     private final EuclideanDistance euclideanDistance = new EuclideanDistance();
@@ -20,11 +20,20 @@ public class DBScan {
 
     public void init() {
         Object[][] dataSet = dataSetParser.getData();
+        //Object[][] dataSet = dataSetParser.createSubSet(1, 0.15);
 
         PointGenerator pointGenerator = new PointGenerator();
         points = pointGenerator.create(dataSet);
 
         generateClusters();
+
+        Plotter plotter = new Plotter();
+
+        try {
+            plotter.draw(clusters, points);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
         for (Cluster cluster : clusters) {
             System.out.println("id: " + cluster.getId() + " size: " + cluster.getPoints().size());
