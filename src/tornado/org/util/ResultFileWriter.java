@@ -52,6 +52,7 @@ public class ResultFileWriter {
     public static void writeDecisionTree(Node node) {
         try {
             PrintWriter writer = new PrintWriter(LOCATION + "DecisionTree", "UTF-8");
+            writer.print(SPACING);
 
             treeWriter(writer, node, "");
 
@@ -62,15 +63,15 @@ public class ResultFileWriter {
     }
 
     private static void treeWriter(PrintWriter writer, Node node, String spacing) {
-
         spacing = spacing + SPACING;
         int count = 0;
-        writer.println(spacing + node.getIndex().getName());
+        writer.print(node.getIndex().getName());
+        writer.println();
         for (Feature f : node.getIndex().getFeatures()) {
             if (f.isLeaf()) {
                 writer.println(spacing + f.getName() + " -> " + f.getResult());
             } else {
-                writer.println(spacing + f.getName() + " -> " + "NOT A LEAF!");
+                writer.print(spacing + f.getName() + " > ");
                 treeWriter(writer, node.getChildren().get(count), spacing);
                 count++;
             }

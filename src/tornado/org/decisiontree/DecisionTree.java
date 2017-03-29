@@ -28,6 +28,8 @@ public class DecisionTree {
 
         accuracyTest(dataSet, rootNode);
 
+        //TreePrinter printer = new TreePrinter();
+        //printer.print(rootNode, "");
         ResultFileWriter.writeDecisionTree(rootNode);
     }
 
