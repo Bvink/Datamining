@@ -18,7 +18,7 @@ public class NaiveBayes {
     public static final int TARGET_CLASSIFICATION = 0;
     public static final long SEED = 1;
     private static final double trainingSetPercentage = 0.33;
-    DataSetParser dataSetParser = new DataSetParser("mushrooms.csv");
+    DataSetParser dataSetParser = new DataSetParser("data/mushrooms.csv");
 
     public void init() {
         Object[][] dataSet = dataSetParser.getData();

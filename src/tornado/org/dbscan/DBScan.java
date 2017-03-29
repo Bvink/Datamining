@@ -17,7 +17,7 @@ public class DBScan {
     private List<Point> points = new ArrayList<>();
     private final List<Cluster> clusters = new ArrayList<>();
     private final EuclideanDistance euclideanDistance = new EuclideanDistance();
-    private DataSetParser dataSetParser = new DataSetParser("stars.csv");
+    private DataSetParser dataSetParser = new DataSetParser("data/stars.csv");
 
     public void init() {
         Object[][] dataSet = dataSetParser.getData();
