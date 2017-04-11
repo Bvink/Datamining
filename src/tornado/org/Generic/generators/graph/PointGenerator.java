@@ -1,4 +1,4 @@
-package tornado.org.generic.generators;
+package tornado.org.generic.generators.graph;
 
 import tornado.org.generic.objects.graph.Point;
 
